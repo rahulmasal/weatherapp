@@ -91,7 +91,8 @@ class _WeatherScreenState extends State<WeatherScreen> {
           }
           final data = snapshot.data;
           final currentWeatherData = data!['list'][0];
-          final currentTemp = currentWeatherData['main']['temp'];
+          final currentTemp =
+              (currentWeatherData['main']['temp'] - 273.15).toStringAsFixed(2);
           final currentSky = currentWeatherData['weather'][0]['main'];
           final currentPressure = currentWeatherData['main']['pressure'];
           final currentHumidity = currentWeatherData['main']['humidity'];
@@ -121,7 +122,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                           child: Column(
                             children: [
                               Text(
-                                '$currentTemp°K',
+                                '$currentTemp°C',
                                 style: const TextStyle(
                                   fontSize: 32,
                                   fontWeight: FontWeight.bold,
@@ -186,7 +187,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                 SizedBox(
                   height: 120,
                   child: ListView.builder(
-                    itemCount: 5,
+                    itemCount: 10,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
                       final hourlyForecast = data['list'][index + 1];
@@ -200,7 +201,8 @@ class _WeatherScreenState extends State<WeatherScreen> {
                         icon: hourlySky == 'clouds' || hourlySky == 'rain'
                             ? Icons.cloud
                             : Icons.sunny,
-                        temperature: hourlyTemp,
+                        temperature: (double.parse(hourlyTemp) - 273.15)
+                            .toStringAsFixed(2),
                       );
                     },
                   ),
